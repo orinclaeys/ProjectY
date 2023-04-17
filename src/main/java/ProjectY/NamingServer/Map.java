@@ -1,0 +1,80 @@
+package ProjectY.NamingServer;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
+import static java.lang.Math.abs;
+
+public class Map {
+    private HashMap<Integer,String> map = new HashMap<>();
+    public Map() {
+        this.loadMap();
+    }
+    public void loadMap(){
+        ObjectMapper mapper = new ObjectMapper();
+        File file = new File("C:\\Downloads\\NamingServer\\src\\main\\java\\ProjectY\\NamingServer\\NameFile.json");
+        try{
+            this.map=mapper.readValue(file, new TypeReference<HashMap<Integer, String>>() {
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void saveMap(){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(new File("C:\\Downloads\\NamingServer\\src\\main\\java\\ProjectY\\NamingServer\\NameFile.json"), map);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public String addNode(Integer ID, String ipAddress){
+        String result;
+        if(map.containsKey(ID)){
+            result="Error: Node is already added";
+        }else {
+            map.put(ID, ipAddress);
+            saveMap();
+            result="Node added succesfully";
+        }
+        return result;
+    }
+    public String removeNode(Integer ID){
+        String result;
+        if(map.containsKey(ID)) {
+            map.remove(ID);
+            saveMap();
+            result="Node deleted succesfully";
+        }else{
+            result="Error: No such Node";
+        }
+        return result;
+    }
+    public String getIP(Integer ID){
+        return map.get(ID);
+    }
+    public int getSize(){
+        return map.size();
+    }
+    public String findClosestIP(int hash){
+        Object[] keys =  map.keySet().toArray();
+        Integer ID = 0;
+        Integer diff = 100000000;
+        for(int i=0;i<keys.length;i++){
+            if(diff>abs(hash-(Integer)keys[i])){
+                diff=abs(hash-(Integer)keys[i]);
+                ID=(Integer)keys[i];
+            }
+        }
+        return map.get(ID);
+    }
+    public void printMap(){
+        System.out.println("Printing map {");
+        map.forEach((key,value) -> System.out.println(key + " = " + value));
+        System.out.println("}");
+    }
+}
