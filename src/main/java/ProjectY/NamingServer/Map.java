@@ -15,7 +15,7 @@ public class Map {
     }
     public void loadMap(){
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File("C:\\Downloads\\NamingServer\\src\\main\\java\\ProjectY\\NamingServer\\NameFile.json");
+        File file = new File("src/main/java/ProjectY/NamingServer/NameFile.json");
         try{
             this.map=mapper.readValue(file, new TypeReference<HashMap<Integer, String>>() {
             });
@@ -26,7 +26,7 @@ public class Map {
     public void saveMap(){
         ObjectMapper mapper = new ObjectMapper();
         try {
-            mapper.writeValue(new File("C:\\Downloads\\NamingServer\\src\\main\\java\\ProjectY\\NamingServer\\NameFile.json"), map);
+            mapper.writeValue(new File("src/main/java/ProjectY/NamingServer/NameFile.json"), map);
         } catch (Exception e){
             e.printStackTrace();
         }
