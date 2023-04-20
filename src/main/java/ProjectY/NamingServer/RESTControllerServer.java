@@ -15,7 +15,7 @@ public class RESTControllerServer {
         NamingServerService service = new NamingServerService(this.server);
         return service.LocateIP(Name);
     }
-    @PostMapping(path="NamingServer/addNode/{nodeName}/{IPAddress}")
+    @PostMapping(path="Discovery/{nodeName}/{IPAddress}")
     public String addNode(@PathVariable("nodeName") String nodeName,@PathVariable("IPAddress") String IPAddress){
         NamingServerService service = new NamingServerService(this.server);
         return service.AddNode(nodeName,IPAddress);
