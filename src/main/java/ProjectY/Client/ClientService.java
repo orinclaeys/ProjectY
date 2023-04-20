@@ -9,16 +9,16 @@ public class ClientService extends Thread {
 
     public ClientService(Client client) {this.client = client;}
 
-    public JSONObject handleDiscovery(String name, String IPAddress) {
+    public JSONObject handleDiscovery(String name) {
         JSONObject response = new JSONObject();
-        int ID = Hash(name);
+        int currentID = Hash(name);
 
-        if (client.updateNextID(ID)) {
+        if (client.updateNextID(currentID)) {
             response.put("update", true);
-            response.put("currentID", client.getCurrentID);
+            response.put("currentID", client.getCurrentId());
             response.put("nextID", client.getNextID());
         }
-        else if (client.updatePreviousID(ID)) {
+        else if (client.updatePreviousID(currentID)) {
             response.put("update", true);
             response.put("currentID", client.getCurrentID);
             response.put("previousID", client.getPreviousID());
