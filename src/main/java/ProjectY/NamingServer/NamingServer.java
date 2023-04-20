@@ -31,6 +31,9 @@ public class NamingServer {
         int min = -2147483647;
         return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
+    public int getSize(){
+        return map.getSize();
+    };
     public void printServer(){
         map.printMap();
     }
