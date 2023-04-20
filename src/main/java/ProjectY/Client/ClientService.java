@@ -1,4 +1,5 @@
 package ProjectY.Client;
 
-public class ClientService {
+public class ClientService extends Thread {
+
 }
