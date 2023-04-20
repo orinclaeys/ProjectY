@@ -18,7 +18,7 @@ public class RESTControllerServer {
     @PostMapping(path="Discovery/{nodeName}/{IPAddress}")
     public String addNode(@PathVariable("nodeName") String nodeName,@PathVariable("IPAddress") String IPAddress){
         NamingServerService service = new NamingServerService(this.server);
-        return service.AddNode(nodeName,IPAddress);
+        return service.handleDiscovery(nodeName,IPAddress);
     }
     @DeleteMapping(path="NamingServer/deleteNode/{nodeName}")
     public String deleteNode(@PathVariable("nodeName") String nodeName){
