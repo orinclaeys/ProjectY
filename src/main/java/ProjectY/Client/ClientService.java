@@ -11,7 +11,7 @@ public class ClientService extends Thread {
 
     public JSONObject handleDiscovery(String name) {
         JSONObject response = new JSONObject();
-        int currentID = Hash(name);
+        int currentID = client.Hash(name);
 
         if (client.updateNextID(currentID)) {
             response.put("update", true);
