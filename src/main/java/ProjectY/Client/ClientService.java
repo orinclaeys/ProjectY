@@ -15,12 +15,12 @@ public class ClientService extends Thread {
         if (client.updateNextID(name)) {
             response.put("update", true);
             response.put("currentID", client.getCurrentId());
-            response.put("nextID", client.getNextID());
+            response.put("nextID", client.getNextId());
         }
         else if (client.updatePreviousID(name)) {
             response.put("update", true);
-            response.put("currentID", client.getCurrentID);
-            response.put("previousID", client.getPreviousID());
+            response.put("currentID", client.getCurrentId());
+            response.put("previousID", client.getPreviousId());
         }
         else {
             response.put("update", false);
