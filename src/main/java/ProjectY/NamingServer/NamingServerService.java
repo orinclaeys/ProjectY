@@ -14,9 +14,9 @@ public class NamingServerService extends Thread{
     public String LocateIP(String name){return  this.server.locate(name);}
 
     public JSONObject handleDiscovery(String name, String IPAddress){
-        System.out.println(AddNode(name, IPAddress));
         JSONObject response = new JSONObject();
         response.put("Sender","NamingServer");
+        response.put("Message",AddNode(name, IPAddress));
         response.put("Size",server.getSize());
         return response;
     }

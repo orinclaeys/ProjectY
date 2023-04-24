@@ -78,9 +78,9 @@ public class Client {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     private int Hash(String name){
-        int max = 2147483647;
-        int min = -2147483647;
-        return (name.hashCode()+max)*(32768/(max+abs(min)));
+        double max = 2147483647;
+        double min = -2147483647;
+        return (int) ((name.hashCode()+max)*(32768/(max+abs(min))));
     }
 
     public void shutdown() throws IOException, InterruptedException {
@@ -135,12 +135,24 @@ public class Client {
             System.out.println(message);
 
             if(message.get("Sender").equals("NamingServer")){
-                if(message.get("size").equals("1")){
-                    System.out.println("First node in Network");
-                    this.setPreviousId(this.getCurrentId());
-                    this.setNextId(this.getCurrentId());
-                }else{
-                    System.out.println("Networksize>1");
+                if(message.get("Message").equals("Node added succesfully")) {
+                    if (message.get("Size").equals(1)) {
+                        System.out.println("First node in Network");
+                        this.setPreviousId(this.getCurrentId());
+                        this.setNextId(this.getCurrentId());
+                    } else {
+                        System.out.println("Networksize>1");
+                    }
+                }
+                if(message.get("Message").equals("Error: Node is already added")){
+                    System.out.println("Error: Name is already registered at NamingServer");
+                }
+            }
+
+            if(message.get("Sender").equals("Client")){
+                if(message.get("Update").equals(true)){
+                    this.setPreviousId((Integer) message.get("YourPreviousID"));
+                    this.setNextId((Integer) message.get("YourNextID"));
                 }
             }
 
@@ -154,5 +166,16 @@ public class Client {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void print(){
+        System.out.println("Client");
+        System.out.println("-------------------");
+        System.out.println("Name: "+this.name);
+        System.out.println("IP-Addres: "+this.IPAddres);
+        System.out.println("ID: "+this.currentID);
+        System.out.println("NextID: "+this.nextID);
+        System.out.println("PreviousID: "+this.previousID);
+        System.out.println("-------------------");
     }
 }

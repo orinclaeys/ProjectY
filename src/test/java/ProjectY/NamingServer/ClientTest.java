@@ -7,8 +7,9 @@ public class ClientTest {
     @Test
     public void DiscoveryTest() throws Exception{
         Client client1 = new Client("Node1");
-        Client client2 = new Client("Node6");
-        Client client3 = new Client("Node12");
-        client2.shutdown();
+        client1.print();
+        client1.Discovery();
+        client1.print();
+
     }
 }
