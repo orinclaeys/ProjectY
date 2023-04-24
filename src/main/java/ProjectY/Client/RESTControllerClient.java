@@ -27,11 +27,15 @@ public class RESTControllerClient {
     @PutMapping(path = "Shutdown/{nodeName}/{IPAddress}")
     public void shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) throws IOException, InterruptedException {
         ClientService clientService = new ClientService(this.client);
-        //client.shutdown();
+        client.shutdown();
     }
 
 /*
-
+    @PutMapping(path = "Update/{nodeName}")
+    public JSONObject update(@PathVariable("nodeName") String nodeName) {
+        ClientService clientService = new ClientService(this.client);
+        return clientService.update(nodeName);
+    }
 */
 
     @PutMapping("Shutdown/PreviousNode/{NextId}")
