@@ -10,9 +10,11 @@ import java.lang.ref.Cleaner;
 @RestController
 @RequestMapping(path = "ProjectY")
 
+
 public class RESTControllerClient {
 
     private Client client = new Client();
+
     @Autowired
     public RESTControllerClient() {}
 
@@ -32,6 +34,16 @@ public class RESTControllerClient {
     public JSONObject update(@PathVariable("nodeName") String nodeName) {
         ClientService clientService = new ClientService(this.client);
         return clientService.update(nodeName);
+    }
+
+    @PutMapping("Shutdown/PreviousNode/{NextId}")
+    public void shutdownPreviousNode(@PathVariable("NextId") int NextId) {
+        ClientService clientService = new ClientService(this.client);
+    }
+
+    @PutMapping("Shutdown/NextNode/{PreviousId}")
+    public void shutdownNextNode(@PathVariable("Previous") int PreviousId) {
+        ClientService clientService = new ClientService(this.client);
     }
 
 }
