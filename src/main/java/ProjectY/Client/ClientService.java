@@ -34,10 +34,10 @@ public class ClientService extends Thread {
         return response;
     }
 
-    public void shutdown(String name) throws IOException, InterruptedException {
+    public void shutdown() throws IOException, InterruptedException {
         HttpClient httpclient = HttpClient.newHttpClient();
         HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/projectY/Shutdown/PreviousNode"))
+                .uri(URI.create("localhost:8080/projectY/Shutdown/PreviousNode"+client.getPreviousId()))
                 .build();
 
         HttpResponse<String> responsePreviousNode =
