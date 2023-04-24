@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.lang.ref.Cleaner;
 
 @RestController
@@ -22,9 +23,9 @@ public class RESTControllerClient {
     }
 
     @PutMapping(path = "Shutdown/{nodeName}/{IPAddress}")
-    public JSONObject shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) {
+    public void shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) throws IOException, InterruptedException {
         ClientService clientService = new ClientService(this.client);
-        return clientService.shutdown(nodeName);
+        clientService.shutdown(nodeName);
     }
 
     @PutMapping(path = "Update/{nodeName}")
