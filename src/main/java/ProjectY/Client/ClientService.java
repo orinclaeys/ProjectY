@@ -28,4 +28,8 @@ public class ClientService extends Thread {
         return response;
     }
 
+    public boolean shutdown(String name) {
+
+    }
+
 }
