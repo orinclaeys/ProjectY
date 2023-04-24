@@ -36,9 +36,14 @@ public class RESTControllerClient {
         return clientService.update(nodeName);
     }
 
-    @PutMapping("{IPAddress}/ProjectY/Shutdown/PreviousNode")
-    public void shutdownPreviousNode(@PathVariable("IPAddress") String IPAddress) {
+    @PutMapping("Shutdown/PreviousNode/{NextId}")
+    public void shutdownPreviousNode(@PathVariable("NextId") int NextId) {
         ClientService clientService = new ClientService(this.client);
-
     }
+
+    @PutMapping("Shutdown/NextNode/{PreviousId}")
+    public void shutdownNextNode(@PathVariable("Previous") int PreviousId) {
+        ClientService clientService = new ClientService(this.client);
+    }
+
 }

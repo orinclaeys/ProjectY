@@ -86,17 +86,18 @@ public class Client {
     };
 
     public void shutdown() throws IOException, InterruptedException {
+
         HttpClient httpclient = HttpClient.newHttpClient();
 
         HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/Shutdown/PreviousNode"+getPreviousId()))
+                .uri(URI.create("/ProjectY/Shutdown/PreviousNode/"+getPreviousId()))
                 .build();
 
         HttpResponse<String> responsePreviousNode =
                 httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/Shutdown/NextNode"+getNextId()))
+                .uri(URI.create("/ProjectY/Shutdown/NextNode/"+getNextId()))
                 .build();
 
         HttpResponse<String> responseNextNode =
