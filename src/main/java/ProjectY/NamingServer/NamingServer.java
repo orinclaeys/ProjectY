@@ -32,9 +32,9 @@ public class NamingServer {
         return map.findClosestIP(Hash(fileName));
     }
     private int Hash(String name){
-        double max = 2147483647;
-        double min = -2147483647;
-        return (int) ((name.hashCode()+max)*(32768/(max+abs(min))));
+        int max = 2147483647;
+        int min = -2147483647;
+        return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
     public int getSize(){
         return map.getSize();

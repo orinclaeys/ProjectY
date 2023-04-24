@@ -1,6 +1,8 @@
 package ProjectY.Client;
 
 import ProjectY.NamingServer.NamingServer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,10 +18,12 @@ public class Client {
     private int NextId = 1;
     private int CurrentId;
     private String name;
+    private String IPAddres;
 
     public Client( String name) {
         CurrentId = Hash(name);
         this.name = name;
+        this.IPAddres = "192.168.1.1";
     }
 
     public Client() {
@@ -86,36 +90,53 @@ public class Client {
     };
 
     public void shutdown() throws IOException, InterruptedException {
+
         HttpClient httpclient = HttpClient.newHttpClient();
 
-        HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
-                .build();
-
-        HttpResponse<String> responsePreviousIPAddress =
-                httpclient.send(requestPreviousIPAddress, HttpResponse.BodyHandlers.ofString());
-
-        HttpRequest requestNextIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
-                .build();
-
-        HttpResponse<String> responseNextIPAddress =
-                httpclient.send(requestNextIPAddress, HttpResponse.BodyHandlers.ofString());
-
         HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create(responsePreviousIPAddress+"/ProjectY/Shutdown/PreviousNode/"+getPreviousId()))
+                .uri(URI.create("/ProjectY/Shutdown/PreviousNode/"+getPreviousId()))
                 .build();
 
         HttpResponse<String> responsePreviousNode =
                 httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create(responseNextIPAddress+"/ProjectY/Shutdown/NextNode/"+getNextId()))
+                .uri(URI.create("/ProjectY/Shutdown/NextNode/"+getNextId()))
                 .build();
 
         HttpResponse<String> responseNextNode =
                 httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
     }
+    public void Discovery(){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/ProjectY/Discovery/"+this.name+"/"+this.IPAddres))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject message = new ObjectMapper().readValue(response.body(), JSONObject.class);
+            System.out.println(message);
+
+            if(message.get("Sender").equals("NamingServer")){
+                if(message.get("size").equals("1")){
+                    System.out.println("First node in Network");
+                    this.setPreviousId(this.getCurrentId());
+                    this.setNextId(this.getCurrentId());
+                }else{
+                    System.out.println("Networksize>1");
+                }
+            }
+
+
+
+
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
-
-
