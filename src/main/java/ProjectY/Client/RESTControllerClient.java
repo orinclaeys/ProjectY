@@ -30,11 +30,13 @@ public class RESTControllerClient {
         client.shutdown();
     }
 
+/*
     @PutMapping(path = "Update/{nodeName}")
     public JSONObject update(@PathVariable("nodeName") String nodeName) {
         ClientService clientService = new ClientService(this.client);
         return clientService.update(nodeName);
     }
+*/
 
     @PutMapping("Shutdown/PreviousNode/{NextId}")
     public void shutdownPreviousNode(@PathVariable("NextId") int NextId) {
