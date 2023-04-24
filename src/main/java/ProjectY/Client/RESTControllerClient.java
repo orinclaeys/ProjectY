@@ -22,10 +22,12 @@ public class RESTControllerClient {
     }
 
     @PutMapping(path = "Shutdown/{nodeName}/{IPAddress}")
-    public JSONObject shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) {
+    public void shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) {
         ClientService clientService = new ClientService(this.client);
-        return clientService.shutdown(nodeName);
+        clientService.shutdown(nodeName);
     }
+
+
 
     @PutMapping(path = "Update/{nodeName}")
     public JSONObject update(@PathVariable("nodeName") String nodeName) {
