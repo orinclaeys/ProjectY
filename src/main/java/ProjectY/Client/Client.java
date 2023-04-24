@@ -89,43 +89,44 @@ public class Client {
         return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
 
-    public void shutdown(String nodeName) throws IOException, InterruptedException {
+    public void shutdown() throws IOException, InterruptedException {
         HttpClient httpclient = HttpClient.newHttpClient();
 
         HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
+                .uri(URI.create("http://localhost:8080/ProjectY/NamingServer/getIPAddress/"+ getPreviousId()))
                 .build();
 
         HttpResponse<String> responsePreviousIPAddress =
                 httpclient.send(requestPreviousIPAddress, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getNextId()))
+                .uri(URI.create("http://localhost:8080/ProjectY/NamingServer/getIPAddress/"+ getNextId()))
                 .build();
 
         HttpResponse<String> responseNextIPAddress =
                 httpclient.send(requestNextIPAddress, HttpResponse.BodyHandlers.ofString());
+        System.out.println(responseNextIPAddress.body());
 
-        HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create(responsePreviousIPAddress+"/ProjectY/Shutdown/PreviousNode/"+getNextId()))
+        /*HttpRequest requestPreviousNode = HttpRequest.newBuilder()
+                .uri(URI.create("http://"+responsePreviousIPAddress.body()+":8080/ProjectY/Shutdown/PreviousNode/"+ getNextId()))
                 .build();
 
         HttpResponse<String> responsePreviousNode =
                 httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create(responseNextIPAddress+"/ProjectY/Shutdown/NextNode/"+getPreviousId()))
+                .uri(URI.create("http://"+responseNextIPAddress.body()+":8080/ProjectY/Shutdown/NextNode/"+ getPreviousId()))
                 .build();
 
         HttpResponse<String> responseNextNode =
                 httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestDeleteNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/deleteNode"+nodeName))
+                .uri(URI.create("http://localhost:8080/ProjectY/NamingServer/deleteNode"+this.name))
                 .build();
 
         HttpResponse<String> responseDeleteNode =
-                httpclient.send(requestDeleteNode, HttpResponse.BodyHandlers.ofString());
+                httpclient.send(requestDeleteNode, HttpResponse.BodyHandlers.ofString());*/
     }
 
     public void Discovery(){

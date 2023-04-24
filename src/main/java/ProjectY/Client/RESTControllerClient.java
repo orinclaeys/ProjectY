@@ -27,7 +27,7 @@ public class RESTControllerClient {
     @PutMapping(path = "Shutdown/{nodeName}/{IPAddress}")
     public void shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) throws IOException, InterruptedException {
         ClientService clientService = new ClientService(this.client);
-        client.shutdown(nodeName);
+        client.shutdown();
     }
 
 /*
