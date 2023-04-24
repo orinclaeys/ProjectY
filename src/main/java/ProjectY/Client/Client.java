@@ -85,7 +85,7 @@ public class Client {
         return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
 
-    public void shutdown() throws IOException, InterruptedException {
+    public void shutdown(String nodeName) throws IOException, InterruptedException {
         HttpClient httpclient = HttpClient.newHttpClient();
 
         HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
@@ -96,25 +96,32 @@ public class Client {
                 httpclient.send(requestPreviousIPAddress, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
+                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getNextId()))
                 .build();
 
         HttpResponse<String> responseNextIPAddress =
                 httpclient.send(requestNextIPAddress, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create(responsePreviousIPAddress+"/ProjectY/Shutdown/PreviousNode/"+getPreviousId()))
+                .uri(URI.create(responsePreviousIPAddress+"/ProjectY/Shutdown/PreviousNode/"+getNextId()))
                 .build();
 
         HttpResponse<String> responsePreviousNode =
                 httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create(responseNextIPAddress+"/ProjectY/Shutdown/NextNode/"+getNextId()))
+                .uri(URI.create(responseNextIPAddress+"/ProjectY/Shutdown/NextNode/"+getPreviousId()))
                 .build();
 
         HttpResponse<String> responseNextNode =
                 httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
+
+        HttpRequest requestDeleteNode = HttpRequest.newBuilder()
+                .uri(URI.create("localhost:8080/ProjectY/NamingServer/deleteNode"+nodeName))
+                .build();
+
+        HttpResponse<String> responseDeleteNode =
+                httpclient.send(requestDeleteNode, HttpResponse.BodyHandlers.ofString());
     }
 }
 
