@@ -2,6 +2,11 @@ package ProjectY.Client;
 
 import ProjectY.NamingServer.NamingServer;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.PrimitiveIterator;
 
 import static java.lang.Math.abs;
@@ -80,5 +85,21 @@ public class Client {
         return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
 
+    public void shutdown() throws IOException, InterruptedException {
+        HttpClient httpclient = HttpClient.newHttpClient();
 
+        HttpRequest requestPreviousNode = HttpRequest.newBuilder()
+                .uri(URI.create("localhost:8080/projectY/Shutdown/PreviousNode"+getPreviousId()))
+                .build();
+
+        HttpResponse<String> responsePreviousNode =
+                httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
+
+        HttpRequest requestNextNode = HttpRequest.newBuilder()
+                .uri(URI.create("localhost:8080/projectY/Shutdown/NextNode"+getNextId()))
+                .build();
+
+        HttpResponse<String> responseNextNode =
+                httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
+    }
 }

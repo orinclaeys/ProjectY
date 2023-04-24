@@ -34,21 +34,6 @@ public class ClientService extends Thread {
         return response;
     }
 
-    public void shutdown() throws IOException, InterruptedException {
-        HttpClient httpclient = HttpClient.newHttpClient();
-        HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/projectY/Shutdown/PreviousNode"+client.getPreviousId()))
-                .build();
 
-        HttpResponse<String> responsePreviousNode =
-                httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
-
-        HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/projectY/Shutdown/NextNode"+client.getNextId()))
-                .build();
-
-        HttpResponse<String> responseNextNode =
-                httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
-    }
 
 }
