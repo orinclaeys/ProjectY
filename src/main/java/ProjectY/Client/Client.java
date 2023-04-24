@@ -26,8 +26,7 @@ public class Client {
         this.IPAddres = "192.168.1.1";
     }
 
-    public Client() {
-    }
+    public Client() {}
 
 
     public boolean updateNextID(String ID){
@@ -51,21 +50,13 @@ public class Client {
         }
     }
 
-    public int getPreviousId() {
-        return PreviousId;
-    }
+    public int getPreviousId() {return PreviousId;}
 
-    public void setPreviousId(int previousId) {
-        PreviousId = previousId;
-    }
+    public void setPreviousId(int previousId) {PreviousId = previousId;}
 
-    public int getNextId() {
-        return NextId;
-    }
+    public int getNextId() {return NextId;}
 
-    public void setNextId(int nextId) {
-        NextId = nextId;
-    }
+    public void setNextId(int nextId) {NextId = nextId;}
 
     public int getCurrentId() {
         return CurrentId;
@@ -113,6 +104,7 @@ public class Client {
                 .uri(URI.create("http://localhost:8080/ProjectY/Discovery/"+this.name+"/"+this.IPAddres))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
+
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONObject message = new ObjectMapper().readValue(response.body(), JSONObject.class);

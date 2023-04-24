@@ -17,7 +17,7 @@ public class ClientService extends Thread {
 
     public JSONObject handleDiscovery(String name) {
         JSONObject response = new JSONObject();
-
+        response.put("Sender","Client");
         if (client.updateNextID(name)) {
             response.put("update", true);
             response.put("currentID", client.getCurrentId());
