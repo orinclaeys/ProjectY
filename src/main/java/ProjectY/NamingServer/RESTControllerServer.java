@@ -26,7 +26,7 @@ public class RESTControllerServer {
         return service.DeleteNode(nodeName);
     }
 
-    @GetMapping(path="NamingServer/{Id}/getIPAddress")
+    @GetMapping(path="NamingServer/getIPAddress/{Id}")
     public String getIPAddress(@PathVariable("Id") int Id){
         NamingServerService service = new NamingServerService(this.server);
         return service.GetIPAddressId(Id);

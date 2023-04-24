@@ -86,18 +86,31 @@ public class Client {
     };
 
     public void shutdown() throws IOException, InterruptedException {
-
         HttpClient httpclient = HttpClient.newHttpClient();
 
+        HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
+                .uri(URI.create("/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
+                .build();
+
+        HttpResponse<String> responsePreviousIPAddress =
+                httpclient.send(requestPreviousIPAddress, HttpResponse.BodyHandlers.ofString());
+
+        HttpRequest requestNextIPAddress = HttpRequest.newBuilder()
+                .uri(URI.create("/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
+                .build();
+
+        HttpResponse<String> responseNextIPAddress =
+                httpclient.send(requestNextIPAddress, HttpResponse.BodyHandlers.ofString());
+
         HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create("/ProjectY/Shutdown/PreviousNode/"+getPreviousId()))
+                .uri(URI.create(responsePreviousIPAddress+"/ProjectY/Shutdown/PreviousNode/"+getPreviousId()))
                 .build();
 
         HttpResponse<String> responsePreviousNode =
                 httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create("/ProjectY/Shutdown/NextNode/"+getNextId()))
+                .uri(URI.create(responseNextIPAddress+"/ProjectY/Shutdown/NextNode/"+getNextId()))
                 .build();
 
         HttpResponse<String> responseNextNode =
