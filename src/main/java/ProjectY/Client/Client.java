@@ -89,14 +89,14 @@ public class Client {
         HttpClient httpclient = HttpClient.newHttpClient();
 
         HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
+                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
                 .build();
 
         HttpResponse<String> responsePreviousIPAddress =
                 httpclient.send(requestPreviousIPAddress, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestNextIPAddress = HttpRequest.newBuilder()
-                .uri(URI.create("/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
+                .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
                 .build();
 
         HttpResponse<String> responseNextIPAddress =
