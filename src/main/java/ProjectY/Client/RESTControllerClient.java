@@ -24,6 +24,12 @@ public class RESTControllerClient {
         return clientService.handleDiscovery(nodeName);
     }
 
+    @PutMapping(path = "Shutdown/{nodeName}/{IPAddress}")
+    public void shutdown(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) throws IOException, InterruptedException {
+        ClientService clientService = new ClientService(this.client);
+        client.shutdown();
+    }
+
 /*
     @PutMapping(path = "Update/{nodeName}")
     public JSONObject update(@PathVariable("nodeName") String nodeName) {
@@ -41,5 +47,7 @@ public class RESTControllerClient {
     public void shutdownNextNode(@PathVariable("Previous") int PreviousId) {
         ClientService clientService = new ClientService(this.client);
     }
+
+
 
 }

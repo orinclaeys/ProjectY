@@ -13,8 +13,11 @@ public class NamingServerService extends Thread{
     public String GetIPAddressId(int Id){return this.server.getIPId(Id);}
     public String LocateIP(String name){return  this.server.locate(name);}
 
-    public int handleDiscovery(String name, String IPAddress){
-        AddNode(name, IPAddress);
-        return this.server.getSize();
+    public JSONObject handleDiscovery(String name, String IPAddress){
+        System.out.println(AddNode(name, IPAddress));
+        JSONObject response = new JSONObject();
+        response.put("Sender","NamingServer");
+        response.put("Size",server.getSize());
+        return response;
     }
 }
