@@ -13,12 +13,12 @@ import java.lang.ref.Cleaner;
 
 public class RESTControllerClient {
 
-    private Client client = new Client();
+    private Client client = new Client("TestClient");
 
     @Autowired
     public RESTControllerClient() {}
 
-    @PutMapping(path = "Discovery/{nodeName}/{IPAddress}")
+    @PostMapping(path = "Discovery/{nodeName}/{IPAddress}")
     public JSONObject discovery(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) {
         ClientService clientService = new ClientService(this.client);
         return clientService.handleDiscovery(nodeName);

@@ -89,71 +89,45 @@ public class Client {
         return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
 
-    public void shutdown() throws IOException, InterruptedException {
+    public void shutdown(String nodeName) throws IOException, InterruptedException {
         HttpClient httpclient = HttpClient.newHttpClient();
 
-        // Get the IP of the previous node.
         HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
                 .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getPreviousId()))
                 .build();
+
         HttpResponse<String> responsePreviousIPAddress =
                 httpclient.send(requestPreviousIPAddress, HttpResponse.BodyHandlers.ofString());
 
-        // Get the IP of the next node.
         HttpRequest requestNextIPAddress = HttpRequest.newBuilder()
                 .uri(URI.create("localhost:8080/ProjectY/NamingServer/getIPAddress/"+getNextId()))
                 .build();
+
         HttpResponse<String> responseNextIPAddress =
                 httpclient.send(requestNextIPAddress, HttpResponse.BodyHandlers.ofString());
 
-        // Send the ID of the next node to the previous node.
         HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create(responsePreviousIPAddress+":8080/ProjectY/Update/PreviousNode/"+getNextId()))
+                .uri(URI.create(responsePreviousIPAddress+"/ProjectY/Shutdown/PreviousNode/"+getNextId()))
                 .build();
+
         HttpResponse<String> responsePreviousNode =
                 httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
 
-        // Send the ID of the previous node to the next node.
         HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create(responseNextIPAddress+":8080/ProjectY/Update/NextNode/"+getPreviousId()))
+                .uri(URI.create(responseNextIPAddress+"/ProjectY/Shutdown/NextNode/"+getPreviousId()))
                 .build();
+
         HttpResponse<String> responseNextNode =
                 httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
 
-        // Remove the node from the Naming server’s Map.
         HttpRequest requestDeleteNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/deleteNode"+this.name))
+                .uri(URI.create("localhost:8080/ProjectY/NamingServer/deleteNode"+nodeName))
                 .build();
+
         HttpResponse<String> responseDeleteNode =
                 httpclient.send(requestDeleteNode, HttpResponse.BodyHandlers.ofString());
     }
 
-    public void failure(String nodeName) throws IOException, InterruptedException {
-        HttpClient httpclient = HttpClient.newHttpClient();
-
-        // Get the IP and ID of the previous and next nodes.
-        HttpRequest requestFailure = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/failure/"+nodeName))
-                .build();
-        HttpResponse<String> response =
-                httpclient.send(requestFailure, HttpResponse.BodyHandlers.ofString());
-
-        JSONObject message = new ObjectMapper().readValue(response.body(), JSONObject.class);
-
-        // Send the ID of the next node to the previous node.
-        HttpRequest requestPreviousNode = HttpRequest.newBuilder()
-                .uri(URI.create(message.get("previousIP")+":8080/ProjectY/Update/PreviousNode/"+message.get("nextId")))
-                .build();
-        HttpResponse<String> responsePreviousNode =
-                httpclient.send(requestPreviousNode, HttpResponse.BodyHandlers.ofString());
-
-        // Send the ID of the previous node to the next node.
-        HttpRequest requestNextNode = HttpRequest.newBuilder()
-                .uri(URI.create(message.get("nextIP")+":8080/ProjectY/Update/NextNode/"+message.get("previousId")))
-                .build();
-        HttpResponse<String> responseNextNode =
-                httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
-    }
     public void Discovery(){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -174,6 +148,12 @@ public class Client {
                     System.out.println("Networksize>1");
                 }
             }
+
+
+
+
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
