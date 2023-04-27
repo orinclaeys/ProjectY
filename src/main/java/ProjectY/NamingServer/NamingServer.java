@@ -19,7 +19,6 @@ public class NamingServer {
     public String getIP(String name){
         return map.getIP(Hash(name));
     }
-
     public String getIPId(int Id){
         return map.getIP(Id);
     }

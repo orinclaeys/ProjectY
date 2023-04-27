@@ -16,7 +16,7 @@ public class RESTControllerClient {
     private Client client = new Client("TestClient");
 
     @Autowired
-    public RESTControllerClient() {}
+    public RESTControllerClient() throws IOException {}
 
     @PostMapping(path = "Discovery/{nodeName}/{IPAddress}")
     public JSONObject discovery(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) {

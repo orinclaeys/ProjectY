@@ -9,6 +9,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.PrimitiveIterator;
 
 import static java.lang.Math.abs;
@@ -20,7 +23,7 @@ public class Client {
     private String name;
     private String IPAddres;
 
-    public Client( String name) {
+    public Client(String name) throws IOException {
         CurrentId = Hash(name);
         this.name = name;
         this.IPAddres = "192.168.1.1";
