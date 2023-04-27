@@ -20,4 +20,15 @@ public class NamingServerService extends Thread{
         response.put("Size",server.getSize());
         return response;
     }
+
+    public JSONObject handleFailure(String nodeName){
+        JSONObject response = new JSONObject();
+        int Id = this.server.Hash(nodeName);
+        response.put("previousId", this.server.getPreviousId(Id));
+        response.put("previousIP", this.server.getIPId(this.server.getPreviousId(Id)));
+        response.put("nextId", this.server.getNextId(Id));
+        response.put("nextIP", this.server.getIPId(this.server.getNextId(Id)));
+        DeleteNode(nodeName);
+        return response;
+    }
 }

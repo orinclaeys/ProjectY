@@ -31,7 +31,7 @@ public class NamingServer {
         System.out.println("Hash: "+Hash(fileName));
         return map.findClosestIP(Hash(fileName));
     }
-    private int Hash(String name){
+    public int Hash(String name){
         int max = 2147483647;
         int min = -2147483647;
         return (name.hashCode()+max)*(32768/(max+abs(min)));
@@ -43,5 +43,11 @@ public class NamingServer {
         map.printMap();
     }
 
+    public int getPreviousId(int Id) {
+        return map.getPreviousId(Id);
+    }
+    public int getNextId(int Id) {
+        return map.getNextId(Id);
+    }
 
 }

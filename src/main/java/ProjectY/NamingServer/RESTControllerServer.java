@@ -20,6 +20,7 @@ public class RESTControllerServer {
         NamingServerService service = new NamingServerService(this.server);
         return service.handleDiscovery(nodeName,IPAddress);
     }
+
     @DeleteMapping(path="NamingServer/deleteNode/{nodeName}")
     public String deleteNode(@PathVariable("nodeName") String nodeName){
         NamingServerService service = new NamingServerService(this.server);
@@ -30,5 +31,11 @@ public class RESTControllerServer {
     public String getIPAddress(@PathVariable("Id") int Id){
         NamingServerService service = new NamingServerService(this.server);
         return service.GetIPAddressId(Id);
+    }
+
+    @PostMapping(path="NamingServer/failure/{nodeName}")
+    public JSONObject failure(@PathVariable("nodeName") String nodeName){
+        NamingServerService service = new NamingServerService(this.server);
+        return service.handleFailure(nodeName);
     }
 }
