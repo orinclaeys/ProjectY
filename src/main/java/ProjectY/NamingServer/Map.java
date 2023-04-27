@@ -86,6 +86,9 @@ public class Map {
                 previousId = (Integer) keys[i];
             }
         }
+        if (Id == 0) {
+            previousId = 32768;
+        }
         return previousId;
     }
     public int getNextId(int Id) {
@@ -95,6 +98,9 @@ public class Map {
             if (((Integer) keys[i] > Id) && (nextId > (Integer) keys[i])) {
                 nextId = (Integer) keys[i];
             }
+        }
+        if (Id == 32768) {
+            nextId = 0;
         }
         return nextId;
     }
