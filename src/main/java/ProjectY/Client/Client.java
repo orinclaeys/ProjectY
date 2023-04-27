@@ -89,7 +89,7 @@ public class Client {
         return (name.hashCode()+max)*(32768/(max+abs(min)));
     };
 
-    public void shutdown(String nodeName) throws IOException, InterruptedException {
+    public void shutdown() throws IOException, InterruptedException {
         HttpClient httpclient = HttpClient.newHttpClient();
 
         HttpRequest requestPreviousIPAddress = HttpRequest.newBuilder()
@@ -121,7 +121,7 @@ public class Client {
                 httpclient.send(requestNextNode, HttpResponse.BodyHandlers.ofString());
 
         HttpRequest requestDeleteNode = HttpRequest.newBuilder()
-                .uri(URI.create("localhost:8080/ProjectY/NamingServer/deleteNode"+nodeName))
+                .uri(URI.create("localhost:8080/ProjectY/NamingServer/deleteNode"+this.name))
                 .build();
 
         HttpResponse<String> responseDeleteNode =
