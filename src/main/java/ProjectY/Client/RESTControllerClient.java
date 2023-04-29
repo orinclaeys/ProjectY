@@ -38,16 +38,22 @@ public class RESTControllerClient {
     }
 */
 
-    @PutMapping("Shutdown/PreviousNode/{NextId}")
+    @PutMapping("Update/PreviousNode/{NextId}")
     public void shutdownPreviousNode(@PathVariable("NextId") int NextId) {
         ClientService clientService = new ClientService(this.client);
+        client.setNextId(NextId);
     }
 
-    @PutMapping("Shutdown/NextNode/{PreviousId}")
+    @PutMapping("Update/NextNode/{PreviousId}")
     public void shutdownNextNode(@PathVariable("Previous") int PreviousId) {
         ClientService clientService = new ClientService(this.client);
+        client.setPreviousId(PreviousId);
     }
 
-
+    @PutMapping(path = "Failure/{nodeName}")
+    public void failure(@PathVariable("nodeName") String nodeName) throws IOException, InterruptedException {
+        ClientService clientService = new ClientService(this.client);
+        client.failure(nodeName);
+    }
 
 }
