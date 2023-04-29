@@ -44,6 +44,7 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Client: Error creating MulticastModule");
         }
+        Discovery();
     }
 
 
