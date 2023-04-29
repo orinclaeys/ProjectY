@@ -28,7 +28,7 @@ public class Client {
         this.previousID = this.currentID;
         this.nextID = this.currentID;
         this.name = name;
-        this.IPAddres = "192.168.1.1";
+        this.IPAddres = "192.168.1.2";
         try {
             this.multicastModule = new MulticastModuleClient(this);
             new Thread(this.multicastModule).start();

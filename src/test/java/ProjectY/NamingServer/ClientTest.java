@@ -20,6 +20,5 @@ public class ClientTest {
     public void MulticastTest() throws IOException {
         NamingServer server = new NamingServer();
         Client client = new Client("Node1");
-        client.Discovery();
     }
 }

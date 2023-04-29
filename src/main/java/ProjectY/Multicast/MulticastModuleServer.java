@@ -29,7 +29,7 @@ public class MulticastModuleServer extends MulticastModule{
         DatagramPacket packet = new DatagramPacket(data, data.length, this.multicastAddress, this.port+1);
         try {
             this.socket.send(packet);
-            System.out.println("MulticastModule: Message send to 255.255.255.255:"+this.port+1);
+            System.out.println("Server: Message send to 255.255.255.255:"+this.port+1);
         } catch (IOException e) {
             System.out.println("MulticastModule: Error while sending message: "+e);
         }
@@ -53,7 +53,7 @@ public class MulticastModuleServer extends MulticastModule{
 
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:8080/ProjectY/DiscoveryRespons/"))
+                        .uri(URI.create("http://"+message.get("IPAddress")+":8080/ProjectY/DiscoveryRespons/"))
                         .POST(HttpRequest.BodyPublishers.ofString(response.toJSONString()))
                         .build();
                 client.send(request, HttpResponse.BodyHandlers.ofString());
