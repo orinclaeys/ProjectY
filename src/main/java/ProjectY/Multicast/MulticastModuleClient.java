@@ -14,25 +14,26 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class MulticastModuleClient extends MulticastModule{
-    private final DatagramSocket socket;
     private final Client client;
 
     public MulticastModuleClient(Client client) throws IOException {
-        this.multicastAddress = InetAddress.getByName("255.255.255.255");
+        this.multicastAddress = InetAddress.getByName("225.225.225.225");
         this.port = 2001;
-        this.socket = new DatagramSocket(this.port);
+        this.socket = new MulticastSocket(this.port);
+        this.socket.joinGroup(this.multicastAddress);
         this.client = client;
     }
     public void sendMulticast(JSONObject message){
         String Stringmessage = message.toJSONString();
         byte[] data = Stringmessage.getBytes();
 
-        DatagramPacket packet1 = new DatagramPacket(data, data.length, this.multicastAddress, this.port-1);
-        //DatagramPacket packet2 = new DatagramPacket(data, data.length, this.multicastAddress, this.port);
+        //DatagramPacket packet1 = new DatagramPacket(data, data.length, this.multicastAddress, this.port-1);
+        DatagramPacket packet2 = new DatagramPacket(data, data.length, this.multicastAddress, this.port);
         try {
-            this.socket.send(packet1);
-            //this.socket.send(packet2);
-            System.out.println("Client: Message send to 255.255.255.255:"+(this.port-1));
+            //this.socket.send(packet1);
+            this.socket.send(packet2);
+            System.out.println("Client: Message send to"+this.multicastAddress.toString()+":"+this.port);
+            //System.out.println("Client: Message send to"+this.multicastAddress.toString()+":"+(this.port-1));
         } catch (IOException e) {
             System.out.println("MulticastModule: Error while sending message: "+e);
         }

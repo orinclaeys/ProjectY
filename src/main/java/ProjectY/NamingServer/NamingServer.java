@@ -16,7 +16,6 @@ public class NamingServer {
     public NamingServer() {
         try {
             this.multicastModule = new MulticastModuleServer(this);
-            new Thread(this.multicastModule).start();
         } catch (IOException e) {
             System.out.println("NamingServer: Error creating MulticastModule: "+e);
         }
@@ -60,6 +59,9 @@ public class NamingServer {
     }
     public int getNextId(int Id) {
         return map.getNextId(Id);
+    }
+    public void run(){
+        new Thread(this.multicastModule).start();
     }
 
 }

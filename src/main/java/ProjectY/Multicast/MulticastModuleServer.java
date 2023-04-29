@@ -12,13 +12,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class MulticastModuleServer extends MulticastModule{
-    private final DatagramSocket socket;
     private final NamingServer server;
 
     public MulticastModuleServer(NamingServer server) throws IOException {
-        this.multicastAddress = InetAddress.getByName("255.255.255.255");
+        this.multicastAddress = InetAddress.getByName("225.225.225.225");
         this.port = 2000;
-        this.socket = new DatagramSocket(this.port);
+        this.socket = new MulticastSocket(this.port);
+        this.socket.joinGroup(this.multicastAddress);
         this.server = server;
     }
 
@@ -29,7 +29,7 @@ public class MulticastModuleServer extends MulticastModule{
         DatagramPacket packet = new DatagramPacket(data, data.length, this.multicastAddress, this.port+1);
         try {
             this.socket.send(packet);
-            System.out.println("Server: Message send to 255.255.255.255:"+this.port+1);
+            System.out.println("Server: Message send to"+this.multicastAddress.toString()+":"+this.port+1);
         } catch (IOException e) {
             System.out.println("MulticastModule: Error while sending message: "+e);
         }

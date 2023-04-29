@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 public class RESTControllerServer {
     private NamingServer server = new NamingServer();
     @Autowired
-    public RESTControllerServer() {}
+    public RESTControllerServer() {
+        server.run();
+    }
     @GetMapping(path="NamingServer/getLocation/{Name}")
     public String getIPAddress(@PathVariable("Name") String Name){
         NamingServerService service = new NamingServerService(this.server);

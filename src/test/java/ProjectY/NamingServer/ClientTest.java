@@ -18,7 +18,8 @@ public class ClientTest {
     }
     @Test
     public void MulticastTest() throws IOException {
-        NamingServer server = new NamingServer();
+        //NamingServer server = new NamingServer();
+        //server.run();
         Client client = new Client("Node1");
     }
 }
