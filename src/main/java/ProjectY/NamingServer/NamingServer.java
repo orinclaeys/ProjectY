@@ -1,5 +1,7 @@
 package ProjectY.NamingServer;
 
+import ProjectY.Multicast.MulticastModule;
+import ProjectY.Multicast.MulticastModuleServer;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -8,8 +10,17 @@ import static java.lang.Math.abs;
 @Service
 public class NamingServer {
     private final Map map = new Map();
+    private MulticastModule multicastModule;
+    private String IP = "192.168.1.1";
 
-    public NamingServer() {}
+    public NamingServer() {
+        try {
+            this.multicastModule = new MulticastModuleServer(this);
+            new Thread(this.multicastModule).start();
+        } catch (IOException e) {
+            System.out.println("NamingServer: Error creating MulticastModule: "+e);
+        }
+    }
     public String addNode(String name, String ipAddress){
         return map.addNode(Hash(name),ipAddress);
     }
@@ -27,6 +38,7 @@ public class NamingServer {
     public int getNodeSize(){
         return map.getSize();
     }
+    public String getServerIP(){return this.IP;}
     public String locate(String fileName){
         System.out.println("Hash: "+Hash(fileName));
         return map.findClosestIP(Hash(fileName));

@@ -27,6 +27,24 @@ public class ClientService extends Thread {
         }
         return response;
     }
+    public void handleDiscoveryRespons(JSONObject message){
+        if(message.get("Type").equals("Client")){
+            System.out.println("Message received form Client");
+            if(message.get("Update").equals(true)){
+                this.client.setPreviousId((Integer) message.get("YourPreviousID"));
+                this.client.setNextId((Integer) message.get("YourNextID"));
+            }
+        }
+        if(message.get("Type").equals("NamingServer")){
+            System.out.println("Message received from Server");
+            this.client.setServerIP((String) message.get("ServerIP"));
+            if(message.get("Size").equals(1)){
+                this.client.setNextId(this.client.getCurrentId());
+                this.client.setPreviousId(this.client.getCurrentId());
+                System.out.println("First node in the network");
+            }
+        }
+    }
 
 
 

@@ -18,6 +18,7 @@ public class NamingServerService extends Thread{
         response.put("Sender","NamingServer");
         response.put("Message",AddNode(name, IPAddress));
         response.put("Size",server.getSize());
+        response.put("ServerIP",server.getServerIP());
         return response;
     }
 }

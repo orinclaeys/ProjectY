@@ -10,7 +10,6 @@ import java.lang.ref.Cleaner;
 @RestController
 @RequestMapping(path = "ProjectY")
 
-
 public class RESTControllerClient {
 
     private Client client = new Client("TestClient");
@@ -18,10 +17,11 @@ public class RESTControllerClient {
     @Autowired
     public RESTControllerClient() {}
 
-    @PostMapping(path = "Discovery/{nodeName}/{IPAddress}")
-    public JSONObject discovery(@PathVariable("nodeName") String nodeName, @PathVariable("IPAddress") String IPAddress) {
+    @PostMapping(path = "DiscoveryRespons")
+    public void discoveryRespons(@RequestBody JSONObject respons) {
         ClientService clientService = new ClientService(this.client);
-        return clientService.handleDiscovery(nodeName);
+        System.out.println("Discovery Respons received");
+        clientService.handleDiscoveryRespons(respons);
     }
 
     @PutMapping(path = "Shutdown/{nodeName}/{IPAddress}")
