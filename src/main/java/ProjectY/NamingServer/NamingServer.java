@@ -3,6 +3,7 @@ package ProjectY.NamingServer;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import static java.lang.Math.abs;
 @Service
@@ -47,6 +48,11 @@ public class NamingServer {
     }
     public int getNextId(int Id) {
         return map.getNextId(Id);
+    }
+
+    public void fileReplication(int hashvalue){
+        String nodeIP = map.findClosestIP(hashvalue);
+        
     }
 
 }
