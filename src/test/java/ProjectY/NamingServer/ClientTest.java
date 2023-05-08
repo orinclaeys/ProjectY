@@ -1,9 +1,5 @@
 package ProjectY.NamingServer;
 
-import ProjectY.Client.Client;
-import ProjectY.Multicast.MulticastModuleClient;
-import ProjectY.Multicast.MulticastModuleServer;
-import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

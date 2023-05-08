@@ -6,11 +6,13 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Vector;
 
 import static java.lang.Math.abs;
 
 public class Map {
     private HashMap<Integer,String> map = new HashMap<>();
+    private Vector<String> IPlist = new Vector<>();
     public Map() {
         this.loadMap();
     }
@@ -40,6 +42,7 @@ public class Map {
             map.put(ID, ipAddress);
             saveMap();
             result="Node added succesfully";
+            IPlist.add(ipAddress);
         }
         return result;
     }
@@ -47,6 +50,7 @@ public class Map {
         String result;
         if(map.containsKey(ID)) {
             map.remove(ID);
+            IPlist.remove(getIP(ID));
             saveMap();
             result="Node deleted succesfully";
         }else{
@@ -104,4 +108,6 @@ public class Map {
         }
         return nextId;
     }
+
+    public Vector<String> getIPlist(){return IPlist;}
 }

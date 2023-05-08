@@ -2,6 +2,14 @@ package ProjectY.NamingServer;
 
 import org.json.simple.JSONObject;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+
 public class NamingServerService extends Thread{
     private NamingServer server;
 
@@ -13,14 +21,15 @@ public class NamingServerService extends Thread{
     public String GetIPAddressId(int Id){return this.server.getIPId(Id);}
     public String LocateIP(String name){return  this.server.locate(name);}
 
-    public JSONObject handleDiscovery(String name, String IPAddress){
+    public JSONObject handleDiscovery(JSONObject message) {
         JSONObject response = new JSONObject();
-        response.put("Sender","NamingServer");
-        response.put("Message",AddNode(name, IPAddress));
-        response.put("Size",server.getSize());
-        response.put("ServerIP",server.getServerIP());
+        response.put("Sender", "NamingServer");
+        response.put("Message", AddNode(message.get("Name").toString(), message.get("IPAddress").toString()));
+        response.put("Size", server.getSize());
+        response.put("IPlist", server.getIPlist());
         return response;
     }
+
 
     public JSONObject handleFailure(String nodeName){
         JSONObject response = new JSONObject();

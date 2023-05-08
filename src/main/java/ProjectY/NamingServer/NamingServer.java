@@ -1,25 +1,17 @@
 package ProjectY.NamingServer;
 
-import ProjectY.Multicast.MulticastModule;
-import ProjectY.Multicast.MulticastModuleServer;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import static java.lang.Math.abs;
 @Service
 public class NamingServer {
     private final Map map = new Map();
-    private MulticastModule multicastModule;
-    private String IP = "192.168.1.1";
+    private String IP = "172.30.0.5";
 
-    public NamingServer() {
-        try {
-            this.multicastModule = new MulticastModuleServer(this);
-        } catch (IOException e) {
-            System.out.println("NamingServer: Error creating MulticastModule: "+e);
-        }
-    }
+    public NamingServer() {}
     public String addNode(String name, String ipAddress){
         return map.addNode(Hash(name),ipAddress);
     }
@@ -37,15 +29,17 @@ public class NamingServer {
     public int getNodeSize(){
         return map.getSize();
     }
-    public String getServerIP(){return this.IP;}
+    public Vector<String> getIPlist(){
+        return map.getIPlist();
+    }
     public String locate(String fileName){
         System.out.println("Hash: "+Hash(fileName));
         return map.findClosestIP(Hash(fileName));
     }
     public int Hash(String name){
-        int max = 2147483647;
-        int min = -2147483647;
-        return (name.hashCode()+max)*(32768/(max+abs(min)));
+        double max = 2147483647;
+        double min = -2147483647;
+        return (int)((name.hashCode()+max)*(32768/(max+abs(min))));
     };
     public int getSize(){
         return map.getSize();
@@ -59,9 +53,6 @@ public class NamingServer {
     }
     public int getNextId(int Id) {
         return map.getNextId(Id);
-    }
-    public void run(){
-        new Thread(this.multicastModule).start();
     }
 
 }

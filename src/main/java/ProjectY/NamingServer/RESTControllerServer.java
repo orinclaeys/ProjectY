@@ -9,18 +9,16 @@ import org.springframework.web.bind.annotation.*;
 public class RESTControllerServer {
     private NamingServer server = new NamingServer();
     @Autowired
-    public RESTControllerServer() {
-        server.run();
-    }
+    public RESTControllerServer() {}
     @GetMapping(path="NamingServer/getLocation/{Name}")
     public String getIPAddress(@PathVariable("Name") String Name){
         NamingServerService service = new NamingServerService(this.server);
         return service.LocateIP(Name);
     }
-    @PostMapping(path="Discovery/{nodeName}/{IPAddress}")
-    public JSONObject addNode(@PathVariable("nodeName") String nodeName,@PathVariable("IPAddress") String IPAddress){
+    @PostMapping(path="Discovery")
+    public JSONObject Discovery(@RequestBody JSONObject message){
         NamingServerService service = new NamingServerService(this.server);
-        return service.handleDiscovery(nodeName,IPAddress);
+        return service.handleDiscovery(message);
     }
 
     @DeleteMapping(path="NamingServer/deleteNode/{nodeName}")
