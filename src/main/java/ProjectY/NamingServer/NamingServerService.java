@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 
 public class NamingServerService extends Thread{
@@ -23,8 +24,9 @@ public class NamingServerService extends Thread{
 
     public JSONObject handleDiscovery(JSONObject message) {
         JSONObject response = new JSONObject();
+        Vector<String> IPlist = (Vector<String>) server.getIPlist().clone();
         response.put("Sender", "NamingServer");
-        response.put("IPlist", server.getIPlist());
+        response.put("IPlist", IPlist);
         response.put("Message", AddNode(message.get("Name").toString(), message.get("IPAddress").toString()));
         response.put("Size", server.getSize());
         return response;
