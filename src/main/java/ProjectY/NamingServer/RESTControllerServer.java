@@ -38,4 +38,16 @@ public class RESTControllerServer {
         NamingServerService service = new NamingServerService(this.server);
         return service.handleFailure(nodeName);
     }
+
+    @PostMapping(path="NamingServer/replication")
+    public void replication(@RequestBody JSONObject message) {
+        NamingServerService service = new NamingServerService(this.server);
+        service.handleReplication(message);
+    }
+
+    @PostMapping(path="NamingServer/replicationResponse")
+    public void replicationResponse(@RequestBody JSONObject response) {
+        NamingServerService service = new NamingServerService(this.server);
+        service.handleReplication(response);
+    }
 }

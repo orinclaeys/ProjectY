@@ -1,5 +1,8 @@
 package ProjectY.NamingServer;
 
+import ProjectY.Files.FileLog;
+import ProjectY.HttpComm.HttpModule;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,7 +13,7 @@ import static java.lang.Math.abs;
 public class NamingServer {
     private final Map map = new Map();
     private String IP = "172.30.0.5";
-
+    private HttpModule httpModule = new HttpModule(this);
     public NamingServer() {}
     public String addNode(String name, String ipAddress){
         return map.addNode(Hash(name),ipAddress);
@@ -55,4 +58,15 @@ public class NamingServer {
         return map.getNextId(Id);
     }
 
+    public void replication(FileLog fileLog){
+        int fileID = fileLog.getFileID();
+        Vector<String> replicationOwners = map.getReplicationList(fileID);
+        for (int i=0;i < replicationOwners.size();i++){
+            JSONObject message = new JSONObject();
+            message.put("Sender", "NamingServer");
+            message.put("Message", "Replication");
+            message.put("FileLog", fileLog);
+            httpModule.replication(message, replicationOwners.get(i));
+        }
+    }
 }

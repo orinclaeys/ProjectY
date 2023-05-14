@@ -1,5 +1,5 @@
-package ProjectY.NamingServer;
 
+import ProjectY.Files.FileLog;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -24,9 +24,8 @@ public class NamingServerService extends Thread{
 
     public JSONObject handleDiscovery(JSONObject message) {
         JSONObject response = new JSONObject();
-        Vector<String> IPlist = (Vector<String>) server.getIPlist().clone();
         response.put("Sender", "NamingServer");
-        response.put("IPlist", IPlist);
+        response.put("IPlist", server.getIPlist());
         response.put("Message", AddNode(message.get("Name").toString(), message.get("IPAddress").toString()));
         response.put("Size", server.getSize());
         return response;
@@ -42,5 +41,21 @@ public class NamingServerService extends Thread{
         response.put("nextIP", this.server.getIPId(this.server.getNextId(Id)));
         DeleteNode(nodeName);
         return response;
+    }
+
+    public void handleReplication(JSONObject message){
+        if (message.get("Sender").equals("Client")){
+            if (message.get("Message").equals("Replication")){
+                Vector<FileLog> fileLogList;
+                fileLogList = (Vector<FileLog>) message.get("FileLogList");
+                for(int i=0;i<fileLogList.size();i++){
+                    server.replication(fileLogList.get(i));
+                    System.out.println(" ");
+                }
+            }
+            if (message.get("Message").equals("Replication Response")){
+                // MOET NOG AFGEWERKT WORDEN
+            }
+        }
     }
 }

@@ -1,6 +1,11 @@
 package ProjectY.NamingServer;
 
+
+import ProjectY.Files.FileLog;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
+
+import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,5 +29,29 @@ public class ServerTest {
         System.out.println(server.locate("File1"));
         server.printServer();
     }
+
+    @Test
+    public void replicationTest() throws Exception{
+        NamingServer server = new NamingServer();
+        FileLog fileLog = new FileLog("Test",7);
+        server.replication(fileLog);
+    }
+
+    @Test
+    public void replicationTest2() throws Exception{
+        NamingServer server = new NamingServer();
+        NamingServerService service = new NamingServerService(server);
+        FileLog fileLog1 = new FileLog("Test",7);
+        FileLog fileLog2 = new FileLog("Test2",4);
+        Vector<FileLog> fileLogList = new Vector<>();
+        fileLogList.add(fileLog1);
+        fileLogList.add(fileLog2);
+        JSONObject message = new JSONObject();
+        message.put("Sender", "Client");
+        message.put("Message", "Replication");
+        message.put("FileLogList", fileLogList);
+        service.handleReplication(message);
+    }
+
 
 }
