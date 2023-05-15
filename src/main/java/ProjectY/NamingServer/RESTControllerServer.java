@@ -33,10 +33,10 @@ public class RESTControllerServer {
         return service.GetIPAddressId(Id);
     }
 
-    @PostMapping(path="NamingServer/failure/{nodeName}")
-    public JSONObject failure(@PathVariable("nodeName") String nodeName){
+    @PostMapping(path="Failure")
+    public JSONObject failure(@RequestBody JSONObject message){
         NamingServerService service = new NamingServerService(this.server);
-        return service.handleFailure(nodeName);
+        return service.handleFailure(message);
     }
 
     @PostMapping(path="NamingServer/replication")

@@ -35,9 +35,12 @@ public class NamingServerService extends Thread{
     }
 
 
-    public JSONObject handleFailure(String nodeName){
+    public JSONObject handleFailure(JSONObject message){
+        int Id = (int) message.get("Failed node Id");
+        String nodeName = (String) message.get("Failed node name");
+
         JSONObject response = new JSONObject();
-        int Id = this.server.Hash(nodeName);
+        response.put("failedNodeId", Id);
         response.put("previousId", this.server.getPreviousId(Id));
         response.put("previousIP", this.server.getIPId(this.server.getPreviousId(Id)));
         response.put("nextId", this.server.getNextId(Id));
