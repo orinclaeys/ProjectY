@@ -1,5 +1,7 @@
+package ProjectY.NamingServer;
 
 import ProjectY.Files.FileLog;
+import ProjectY.NamingServer.NamingServer;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
