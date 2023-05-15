@@ -2,6 +2,7 @@ package ProjectY.NamingServer;
 
 import ProjectY.Files.FileLog;
 import ProjectY.NamingServer.NamingServer;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -48,10 +49,14 @@ public class NamingServerService extends Thread{
     public void handleReplication(JSONObject message){
         if (message.get("Sender").equals("Client")){
             if (message.get("Message").equals("Replication")){
-                Vector<FileLog> fileLogList;
-                fileLogList = (Vector<FileLog>) message.get("FileLogList");
-                for(int i=0;i<fileLogList.size();i++){
-                    server.replication(fileLogList.get(i));
+                Vector<FileLog> fileLogList = new Vector<>();
+                JSONArray fileLogListJSON = ((JSONArray) message.get("FileLogList"));
+                for (Object o : fileLogListJSON) {
+                    fileLogList.add(new FileLog((JSONObject) o));
+                }
+
+                for (FileLog fileLog : fileLogList) {
+                    server.replication(fileLog);
                     System.out.println(" ");
                 }
             }

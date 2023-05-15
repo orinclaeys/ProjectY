@@ -65,7 +65,7 @@ public class NamingServer {
             JSONObject message = new JSONObject();
             message.put("Sender", "NamingServer");
             message.put("Message", "Replication");
-            message.put("FileLog", fileLog);
+            message.put("FileLog", fileLog.toJSON());
             httpModule.replication(message, replicationOwners.get(i));
         }
     }

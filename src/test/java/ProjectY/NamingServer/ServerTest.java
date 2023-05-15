@@ -2,6 +2,7 @@ package ProjectY.NamingServer;
 
 
 import ProjectY.Files.FileLog;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 
@@ -43,9 +44,9 @@ public class ServerTest {
         NamingServerService service = new NamingServerService(server);
         FileLog fileLog1 = new FileLog("Test",7);
         FileLog fileLog2 = new FileLog("Test2",4);
-        Vector<FileLog> fileLogList = new Vector<>();
-        fileLogList.add(fileLog1);
-        fileLogList.add(fileLog2);
+        JSONArray fileLogList = new JSONArray();
+        fileLogList.add(fileLog1.toJSON());
+        fileLogList.add(fileLog2.toJSON());
         JSONObject message = new JSONObject();
         message.put("Sender", "Client");
         message.put("Message", "Replication");
