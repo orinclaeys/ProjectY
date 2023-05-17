@@ -13,7 +13,7 @@ import static java.lang.Math.abs;
 @Service
 public class NamingServer {
     private final Map map = new Map();
-    private String IP = "172.30.0.5";
+    private static String IP = "172.30.0.5";
     private HttpModule httpModule = new HttpModule(this);
     public NamingServer() {}
     public String addNode(String name, String ipAddress){
