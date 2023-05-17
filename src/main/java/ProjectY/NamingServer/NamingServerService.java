@@ -68,4 +68,8 @@ public class NamingServerService extends Thread{
             }
         }
     }
+
+    public String GetPreviousIPAddressId(int Id){
+        return this.server.getIPId(this.server.getPreviousId(Id));
+    }
 }

@@ -33,6 +33,12 @@ public class RESTControllerServer {
         return service.GetIPAddressId(Id);
     }
 
+    @GetMapping(path="NamingServer/getPreviousIPAddress/{Id}")
+    public String getPreviousIPAddress(@PathVariable("Id") int Id){
+        NamingServerService service = new NamingServerService(this.server);
+        return service.GetPreviousIPAddressId(Id);
+    }
+
     @PostMapping(path="Failure")
     public JSONObject failure(@RequestBody JSONObject message){
         NamingServerService service = new NamingServerService(this.server);
