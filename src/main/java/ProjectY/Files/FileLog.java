@@ -3,6 +3,7 @@ package ProjectY.Files;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Vector;
 
@@ -21,26 +22,14 @@ public class FileLog {
         this.fileName = (String) fileLog.get("fileName");
         this.fileID = (Integer) fileLog.get("fileID");
         this.owner = (Integer) fileLog.get("owner");
-        this.replicatedOwners.addAll((JSONArray) fileLog.get("replicatedOwners"));
-        this.downloadLocations.addAll((JSONArray) fileLog.get("downloadLocations"));
+        this.replicatedOwners.addAll((ArrayList) fileLog.get("replicatedOwners"));
+        this.downloadLocations.addAll((ArrayList) fileLog.get("downloadLocations"));
     }
     public void setOwner(int ownerID) {this.owner = ownerID;}
     public int getOwner(){return owner;}
     public int getFileID(){return fileID;}
-
-    public JSONObject toJSON(){
-        JSONObject response = new JSONObject();
-        response.put("fileName",fileName);
-        response.put("fileID",fileID);
-        response.put("owner",owner);
-        JSONArray replicatedOwnerJSON = new JSONArray();
-        replicatedOwnerJSON.addAll(replicatedOwners);
-        response.put("replicatedOwners",replicatedOwnerJSON);
-        JSONArray downloadLocationsJSON = new JSONArray();
-        replicatedOwnerJSON.addAll(downloadLocations);
-        response.put("downloadLocations",downloadLocationsJSON);
-        return response;
-    }
-
+    public String getFileName() {return fileName;}
+    public Vector<Integer> getReplicatedOwners() {return replicatedOwners;}
+    public Vector<String> getDownloadLocations() {return downloadLocations;}
 }
 

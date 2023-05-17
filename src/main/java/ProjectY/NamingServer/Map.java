@@ -111,11 +111,11 @@ public class Map {
 
     public Vector<String> getIPlist(){return IPlist;}
 
-    public Vector<String> getReplicationList(int ownerID){
+    public Vector<String> getReplicationList(int fileID){
         Vector<String> replicationOwners = new Vector<>();
         Object[] keys = map.keySet().toArray();
         for(int i=0;i<keys.length;i++){
-            if ((Integer) keys[i] < ownerID) {
+            if ((Integer) keys[i] < fileID) {
                 replicationOwners.add(map.get((Integer) keys[i]));
             }
         }

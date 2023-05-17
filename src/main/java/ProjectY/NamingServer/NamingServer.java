@@ -2,6 +2,7 @@ package ProjectY.NamingServer;
 
 import ProjectY.Files.FileLog;
 import ProjectY.HttpComm.HttpModule;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +64,17 @@ public class NamingServer {
         Vector<String> replicationOwners = map.getReplicationList(fileID);
         for (int i=0;i < replicationOwners.size();i++){
             JSONObject message = new JSONObject();
+            JSONArray replicatedOwners2 = new JSONArray();
+            JSONArray downloadLocations = new JSONArray();
+            replicatedOwners2.addAll(fileLog.getReplicatedOwners());
+            downloadLocations.addAll(fileLog.getDownloadLocations());
             message.put("Sender", "NamingServer");
             message.put("Message", "Replication");
-            message.put("FileLog", fileLog.toJSON());
+            message.put("fileName", fileLog.getFileName());
+            message.put("fileID",fileLog.getFileID());
+            message.put("owner",fileLog.getOwner());
+            message.put("replicatedOwners",replicatedOwners2);
+            message.put("downloadLocations",downloadLocations);
             httpModule.replication(message, replicationOwners.get(i));
         }
     }

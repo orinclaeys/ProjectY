@@ -2,6 +2,7 @@ package ProjectY.NamingServer;
 
 
 import ProjectY.Files.FileLog;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -45,13 +46,25 @@ public class ServerTest {
         FileLog fileLog1 = new FileLog("Test",7);
         FileLog fileLog2 = new FileLog("Test2",4);
         JSONArray fileLogList = new JSONArray();
-        fileLogList.add(fileLog1.toJSON());
-        fileLogList.add(fileLog2.toJSON());
+
         JSONObject message = new JSONObject();
         message.put("Sender", "Client");
         message.put("Message", "Replication");
         message.put("FileLogList", fileLogList);
         service.handleReplication(message);
+    }
+
+    @Test
+    public void MapperTest(){
+        FileLog fileLog = new FileLog("test",2);
+        JSONArray replicatedOwners = new JSONArray();
+        replicatedOwners.addAll(fileLog.getReplicatedOwners());
+
+        JSONObject message = new JSONObject();
+        message.put("replicatedOwners",replicatedOwners);
+        System.out.println(message);
+
+
     }
 
 

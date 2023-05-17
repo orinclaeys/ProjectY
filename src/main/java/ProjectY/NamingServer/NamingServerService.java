@@ -2,6 +2,9 @@ package ProjectY.NamingServer;
 
 import ProjectY.Files.FileLog;
 import ProjectY.NamingServer.NamingServer;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -11,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
 
@@ -52,16 +56,14 @@ public class NamingServerService extends Thread{
     public void handleReplication(JSONObject message){
         if (message.get("Sender").equals("Client")){
             if (message.get("Message").equals("Replication")){
-                Vector<FileLog> fileLogList = new Vector<>();
-                JSONArray fileLogListJSON = ((JSONArray) message.get("FileLogList"));
-                for (Object o : fileLogListJSON) {
-                    fileLogList.add(new FileLog((JSONObject) o));
-                }
+                FileLog fileLog = new FileLog(message);
+                server.replication(fileLog);
+                System.out.println(" ");
 
-                for (FileLog fileLog : fileLogList) {
-                    server.replication(fileLog);
-                    System.out.println(" ");
-                }
+                //for (FileLog fileLog : fileLogList) {
+                //    server.replication(fileLog);
+                //    System.out.println(" ");
+                //}
             }
             if (message.get("Message").equals("Replication Response")){
                 // MOET NOG AFGEWERKT WORDEN
