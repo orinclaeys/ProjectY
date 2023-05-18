@@ -31,8 +31,9 @@ public class NamingServerService extends Thread{
 
     public JSONObject handleDiscovery(JSONObject message) {
         JSONObject response = new JSONObject();
+        Vector<String> IPlist = (Vector<String>) server.getIPlist().clone();
         response.put("Sender", "NamingServer");
-        response.put("IPlist", server.getIPlist());
+        response.put("IPlist", IPlist);
         response.put("Message", AddNode(message.get("Name").toString(), message.get("IPAddress").toString()));
         response.put("Size", server.getSize());
         System.out.println("Server: Discovery response: "+response);
