@@ -4,6 +4,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
+
 @RestController
 @RequestMapping(path="ProjectY")
 public class RESTControllerServer {
@@ -17,6 +19,7 @@ public class RESTControllerServer {
     }
     @PostMapping(path="Discovery")
     public JSONObject Discovery(@RequestBody JSONObject message){
+        System.out.println("Server: Discovery received: "+message);
         NamingServerService service = new NamingServerService(this.server);
         return service.handleDiscovery(message);
     }

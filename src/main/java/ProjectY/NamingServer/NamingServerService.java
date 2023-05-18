@@ -35,6 +35,7 @@ public class NamingServerService extends Thread{
         response.put("IPlist", server.getIPlist());
         response.put("Message", AddNode(message.get("Name").toString(), message.get("IPAddress").toString()));
         response.put("Size", server.getSize());
+        System.out.println("Server: Discovery response: "+response);
         return response;
     }
 
