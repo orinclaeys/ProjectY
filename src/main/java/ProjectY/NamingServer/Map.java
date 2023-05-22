@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Vector;
 
 import static java.lang.Math.abs;
@@ -51,7 +52,7 @@ public class Map {
         if(map.containsKey(ID)) {
             map.remove(ID);
             for(int i=0;i<IPlist.size();i++){
-               if(IPlist.get(i)==getIP(ID)){
+               if(Objects.equals(IPlist.get(i), getIP(ID))){
                     IPlist.remove(i);
                 }
             }
