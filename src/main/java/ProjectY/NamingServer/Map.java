@@ -50,7 +50,11 @@ public class Map {
         String result;
         if(map.containsKey(ID)) {
             map.remove(ID);
-            IPlist.remove(getIP(ID));
+            for(int i=0;i<IPlist.size();i++){
+               if(IPlist.get(i)==getIP(ID)){
+                    IPlist.remove(i);
+                }
+            }
             saveMap();
             result="Node deleted succesfully";
         }else{
