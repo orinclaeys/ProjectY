@@ -50,7 +50,6 @@ public class Map {
     public String removeNode(Integer ID){
         String result;
         if(map.containsKey(ID)) {
-            map.remove(ID);
             for(int i=0;i<IPlist.size();i++){
                 System.out.println(IPlist.get(i));
                 System.out.println(ID+": "+map.get(ID));
@@ -58,6 +57,7 @@ public class Map {
                     IPlist.remove(i);
                 }
             }
+            map.remove(ID);
             saveMap();
             result="Node deleted succesfully";
         }else{
@@ -69,7 +69,6 @@ public class Map {
         return map.get(ID);
     }
     public int getSize(){
-        printMap();
         return map.size();
     }
     public String findClosestIP(int hash){
