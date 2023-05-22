@@ -59,23 +59,9 @@ public class NamingServer {
         return map.getNextId(Id);
     }
 
-    public void replication(FileLog fileLog){
-        int fileID = fileLog.getFileID();
-        Vector<String> replicationOwners = map.getReplicationList(fileID);
-        for (int i=0;i < replicationOwners.size();i++){
-            JSONObject message = new JSONObject();
-            JSONArray replicatedOwners2 = new JSONArray();
-            JSONArray downloadLocations = new JSONArray();
-            replicatedOwners2.addAll(fileLog.getReplicatedOwners());
-            downloadLocations.addAll(fileLog.getDownloadLocations());
-            message.put("Sender", "NamingServer");
-            message.put("Message", "Replication");
-            message.put("fileName", fileLog.getFileName());
-            message.put("fileID",fileLog.getFileID());
-            message.put("owner",fileLog.getOwner());
-            message.put("replicatedOwners",replicatedOwners2);
-            message.put("downloadLocations",downloadLocations);
-            httpModule.replication(message, replicationOwners.get(i));
-        }
+    public String getReplicatedIP(int fileID){
+        int replicatedOwner = map.getPreviousId(fileID);
+        String replicatedOwnerIP = getIPId(replicatedOwner);
+        return replicatedOwnerIP;
     }
 }

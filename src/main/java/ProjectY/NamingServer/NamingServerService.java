@@ -1,6 +1,7 @@
 package ProjectY.NamingServer;
 
 import ProjectY.Files.FileLog;
+import ProjectY.HttpComm.HttpModule;
 import ProjectY.NamingServer.NamingServer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class NamingServerService extends Thread{
     private NamingServer server;
-
+    private HttpModule httpModule =new HttpModule(this.server);
     public NamingServerService(NamingServer server) {this.server = server;}
 
     public String AddNode(String name,String IPAddress){return this.server.addNode(name,IPAddress);}
@@ -55,22 +56,19 @@ public class NamingServerService extends Thread{
         return response;
     }
 
-    public void handleReplication(JSONObject message){
+    public JSONObject handleReplication(JSONObject message){
+        JSONObject response = new JSONObject();
         if (message.get("Sender").equals("Client")){
             if (message.get("Message").equals("Replication")){
-                FileLog fileLog = new FileLog(message);
-                server.replication(fileLog);
-                System.out.println(" ");
+                int fileID = (int) message.get("fileID");
+                String replicatedOwnerIP = server.getReplicatedIP(fileID);
 
-                //for (FileLog fileLog : fileLogList) {
-                //    server.replication(fileLog);
-                //    System.out.println(" ");
-                //}
-            }
-            if (message.get("Message").equals("Replication Response")){
-                // MOET NOG AFGEWERKT WORDEN
+                response.put("Sender", "NamingServer");
+                response.put("Message", "Replication");
+                response.put("ReplicatedOwnerIP", replicatedOwnerIP);
             }
         }
+        return response;
     }
 
     public String GetPreviousIPAddressId(int Id){

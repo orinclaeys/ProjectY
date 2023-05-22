@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Vector;
@@ -89,41 +90,37 @@ public class Map {
 
     public int getPreviousId(int Id) {
         Object[] keys = map.keySet().toArray();
+        Arrays.stream(keys).sorted();
         int previousId = 0;
         for(int i=0;i<keys.length;i++){
-            if (((Integer) keys[i] < Id) && (previousId < (Integer) keys[i])) {
-                previousId = (Integer) keys[i];
+            if((Integer) keys[i] == Id){
+                if (i == 0) {
+                    previousId = (int) keys[keys.length-1];
+                }
+                else{
+                    previousId = (Integer) keys[i-1];
+                }
             }
-        }
-        if (Id == 0) {
-            previousId = 32768;
         }
         return previousId;
     }
     public int getNextId(int Id) {
         Object[] keys = map.keySet().toArray();
+        Arrays.stream(keys).sorted();
         int nextId = 32768;
         for(int i=0;i<keys.length;i++){
-            if (((Integer) keys[i] > Id) && (nextId > (Integer) keys[i])) {
-                nextId = (Integer) keys[i];
+            if((Integer) keys[i] == Id){
+                if (i == keys.length-1) {
+                    nextId = (int) keys[0];
+                }
+                else{
+                    nextId = (Integer) keys[i+1];
+                }
             }
-        }
-        if (Id == 32768) {
-            nextId = 0;
         }
         return nextId;
     }
 
     public Vector<String> getIPlist(){return IPlist;}
 
-    public Vector<String> getReplicationList(int fileID){
-        Vector<String> replicationOwners = new Vector<>();
-        Object[] keys = map.keySet().toArray();
-        for(int i=0;i<keys.length;i++){
-            if ((Integer) keys[i] < fileID) {
-                replicationOwners.add(map.get((Integer) keys[i]));
-            }
-        }
-        return replicationOwners;
-    }
 }

@@ -20,7 +20,7 @@ public class HttpModule {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://"+ip+":8080/ProjectY/NamingServer/replication"))
+                .uri(URI.create("http://"+ip+":8080/ProjectY/Client/replication"))
                 .POST(HttpRequest.BodyPublishers.ofString(message.toJSONString()))
                 .header("Content-type", "application/json")
                 .timeout(Duration.ofSeconds(1000))

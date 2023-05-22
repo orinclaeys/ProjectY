@@ -32,12 +32,12 @@ public class ServerTest {
         server.printServer();
     }
 
-    @Test
+/*    @Test
     public void replicationTest() throws Exception{
         NamingServer server = new NamingServer();
         FileLog fileLog = new FileLog("Test",7);
         server.replication(fileLog);
-    }
+    }*/
 
     @Test
     public void replicationTest2() throws Exception{
@@ -54,7 +54,7 @@ public class ServerTest {
         service.handleReplication(message);
     }
 
-    @Test
+/*    @Test
     public void MapperTest(){
         FileLog fileLog = new FileLog("test",2);
         JSONArray replicatedOwners = new JSONArray();
@@ -65,7 +65,7 @@ public class ServerTest {
         System.out.println(message);
 
 
-    }
+    }*/
 
 
 }
