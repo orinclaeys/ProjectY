@@ -52,7 +52,9 @@ public class Map {
         if(map.containsKey(ID)) {
             map.remove(ID);
             for(int i=0;i<IPlist.size();i++){
-               if(Objects.equals(IPlist.get(i), getIP(ID))){
+                System.out.println(IPlist.get(i));
+                System.out.println(getIP(ID));
+                if(Objects.equals(IPlist.get(i), getIP(ID))){
                     IPlist.remove(i);
                 }
             }
