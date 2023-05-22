@@ -69,6 +69,7 @@ public class Map {
         return map.get(ID);
     }
     public int getSize(){
+        printMap();
         return map.size();
     }
     public String findClosestIP(int hash){
