@@ -53,7 +53,7 @@ public class Map {
             map.remove(ID);
             for(int i=0;i<IPlist.size();i++){
                 System.out.println(IPlist.get(i));
-                System.out.println(ID+": "+getIP(ID));
+                System.out.println(ID+": "+map.get(ID));
                 if(Objects.equals(IPlist.get(i), getIP(ID))){
                     IPlist.remove(i);
                 }
