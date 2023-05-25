@@ -15,7 +15,8 @@ public class NamingServer {
     private final Map map = new Map();
     private static String IP = "172.30.0.5";
     private HttpModule httpModule = new HttpModule(this);
-    public NamingServer() {}
+    public NamingServer() {
+    }
     public String addNode(String name, String ipAddress){
         return map.addNode(Hash(name),ipAddress);
     }
