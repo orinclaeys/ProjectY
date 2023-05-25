@@ -51,6 +51,7 @@ public class RESTControllerServer {
     @PostMapping(path="NamingServer/replication")
     public JSONObject replication(@RequestBody JSONObject message) {
         NamingServerService service = new NamingServerService(this.server);
+        System.out.println("Server: Replication received: "+message);
         return service.handleReplication(message);
     }
 }

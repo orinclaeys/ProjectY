@@ -64,12 +64,8 @@ public class Map {
         }
         return result;
     }
-    public String getIP(Integer ID){
-        return map.get(ID);
-    }
-    public int getSize(){
-        return map.size();
-    }
+    public String getIP(Integer ID){return map.get(ID);}
+    public int getSize(){return map.size();}
     public String findClosestIP(int hash){
         Object[] keys =  map.keySet().toArray();
         Integer ID = 0;
