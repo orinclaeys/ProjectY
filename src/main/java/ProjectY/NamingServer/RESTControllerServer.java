@@ -52,6 +52,8 @@ public class RESTControllerServer {
     public JSONObject replication(@RequestBody JSONObject message) {
         NamingServerService service = new NamingServerService(this.server);
         System.out.println("Server: Replication received: "+message);
-        return service.handleReplication(message);
+        JSONObject response = service.handleReplication(message);
+        System.out.println("Server: Replication response: "+response);
+        return response;
     }
 }
