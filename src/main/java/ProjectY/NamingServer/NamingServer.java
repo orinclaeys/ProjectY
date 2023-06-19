@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 
 import static java.lang.Math.abs;
@@ -61,8 +62,7 @@ public class NamingServer {
     }
 
     public String getReplicatedIP(int fileID){
-        int replicatedOwner = map.getPreviousId(fileID);
-        String replicatedOwnerIP = getIPId(replicatedOwner);
-        return replicatedOwnerIP;
+        String replicatedOwner = map.getReplicationIP(fileID);
+        return replicatedOwner;
     }
 }

@@ -5,19 +5,14 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Vector;
+import java.util.*;
 
 import static java.lang.Math.abs;
 
 public class Map {
     private HashMap<Integer,String> map = new HashMap<>();
     private Vector<String> IPlist = new Vector<>();
-    public Map() {
-        this.loadMap();
-    }
+    public Map() {this.loadMap();}
     public void loadMap(){
         ObjectMapper mapper = new ObjectMapper();
         File file = new File("src/main/java/ProjectY/NamingServer/NameFile.json");
@@ -118,5 +113,20 @@ public class Map {
     }
 
     public Vector<String> getIPlist(){return IPlist;}
+
+    public String getReplicationIP(int fileID){
+        String IP = null;
+        Integer ID = 0;
+        Object[] keys = map.keySet().toArray();
+        for (Object key : keys) {
+            if ((Integer) key < fileID) {
+                if((Integer) key > ID){
+                    ID = (Integer) key;
+                    IP = map.get((Integer) key);
+                }
+            }
+        }
+        return IP;
+    }
 
 }
