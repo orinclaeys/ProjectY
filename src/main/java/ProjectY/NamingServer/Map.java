@@ -116,13 +116,14 @@ public class Map {
 
     public String getReplicationIP(int fileID){
         String IP = null;
-        Integer ID = 0;
         Object[] keys = map.keySet().toArray();
-        for (Object key : keys) {
-            if ((Integer) key < fileID) {
-                if((Integer) key > ID){
-                    ID = (Integer) key;
-                    IP = map.get((Integer) key);
+        Arrays.sort(keys);
+        for (int i=0;i<keys.length;i++){
+            if((Integer) keys[i]>fileID){
+                if(i==0){
+                    IP= map.get((Integer) keys[keys.length-1]);
+                }else{
+                    IP=map.get((Integer) keys[i-1]);
                 }
             }
         }
