@@ -131,6 +131,9 @@ public class Map {
                 }
             }
         }
+        if(IP==null && keys.length>1){
+            IP=map.get((Integer) keys[keys.length]);
+        }
         return IP;
     }
 
