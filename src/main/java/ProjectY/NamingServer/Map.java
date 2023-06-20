@@ -126,13 +126,13 @@ public class Map {
                     IP = map.get((Integer) keys[i]);
                 }
                 if((Integer) keys[i]>fileID){
-                    IP = map.get((Integer) keys[keys.length]);
+                    IP = map.get((Integer) keys[keys.length-1]);
                     break;
                 }
             }
         }
         if(IP==null && keys.length>1){
-            IP=map.get((Integer) keys[keys.length]);
+            IP=map.get((Integer) keys[keys.length-1]);
         }
         return IP;
     }
