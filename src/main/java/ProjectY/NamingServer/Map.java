@@ -10,27 +10,11 @@ import java.util.*;
 import static java.lang.Math.abs;
 
 public class Map {
-    private HashMap<Integer,String> map = new HashMap<>();
     private Vector<String> IPlist = new Vector<>();
+    private HashMap<Integer,String> map = new HashMap<>();
+
     public Map() {this.loadMap();}
-    public void loadMap(){
-        ObjectMapper mapper = new ObjectMapper();
-        File file = new File("src/main/java/ProjectY/NamingServer/NameFile.json");
-        try{
-            this.map=mapper.readValue(file, new TypeReference<HashMap<Integer, String>>() {
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    public void saveMap(){
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            mapper.writeValue(new File("src/main/java/ProjectY/NamingServer/NameFile.json"), map);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+
     public String addNode(Integer ID, String ipAddress){
         String result;
         if(map.containsKey(ID)){
@@ -43,24 +27,6 @@ public class Map {
         }
         return result;
     }
-    public String removeNode(Integer ID){
-        String result;
-        if(map.containsKey(ID)) {
-            for(int i=0;i<IPlist.size();i++){
-                if(Objects.equals(IPlist.get(i), getIP(ID))){
-                    IPlist.remove(i);
-                }
-            }
-            map.remove(ID);
-            saveMap();
-            result="Node deleted succesfully";
-        }else{
-            result="Error: No such Node";
-        }
-        return result;
-    }
-    public String getIP(Integer ID){return map.get(ID);}
-    public int getSize(){return map.size();}
     public String findClosestIP(int hash){
         Object[] keys =  map.keySet().toArray();
         Integer ID = 0;
@@ -73,28 +39,8 @@ public class Map {
         }
         return map.get(ID);
     }
-    public void printMap(){
-        System.out.println("Printing map {");
-        map.forEach((key,value) -> System.out.println(key + " = " + value));
-        System.out.println("}");
-    }
-
-    public int getPreviousId(int Id) {
-        Object[] keys = map.keySet().toArray();
-        Arrays.sort(keys);
-        int previousId = 0;
-        for(int i=0;i<keys.length;i++){
-            if((Integer) keys[i] == Id){
-                if (i == 0) {
-                    previousId = (int) keys[keys.length-1];
-                }
-                else{
-                    previousId = (Integer) keys[i-1];
-                }
-            }
-        }
-        return previousId;
-    }
+    public String getIP(Integer ID){return map.get(ID);}
+    public Vector<String> getIPlist(){return IPlist;}
     public int getNextId(int Id) {
         Object[] keys = map.keySet().toArray();
         Arrays.sort(keys);
@@ -111,9 +57,22 @@ public class Map {
         }
         return nextId;
     }
-
-    public Vector<String> getIPlist(){return IPlist;}
-
+    public int getPreviousId(int Id) {
+        Object[] keys = map.keySet().toArray();
+        Arrays.sort(keys);
+        int previousId = 0;
+        for(int i=0;i<keys.length;i++){
+            if((Integer) keys[i] == Id){
+                if (i == 0) {
+                    previousId = (int) keys[keys.length-1];
+                }
+                else{
+                    previousId = (Integer) keys[i-1];
+                }
+            }
+        }
+        return previousId;
+    }
     public String getReplicationIP(int fileID){
         String IP = null;
         int id = 0;
@@ -135,6 +94,46 @@ public class Map {
             IP=map.get((Integer) keys[keys.length-1]);
         }
         return IP;
+    }
+    public int getSize(){return map.size();}
+    public void loadMap(){
+        ObjectMapper mapper = new ObjectMapper();
+        File file = new File("src/main/java/ProjectY/NamingServer/NameFile.json");
+        try{
+            this.map=mapper.readValue(file, new TypeReference<HashMap<Integer, String>>() {
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void printMap(){
+        System.out.println("Printing map {");
+        map.forEach((key,value) -> System.out.println(key + " = " + value));
+        System.out.println("}");
+    }
+    public String removeNode(Integer ID){
+        String result;
+        if(map.containsKey(ID)) {
+            for(int i=0;i<IPlist.size();i++){
+                if(Objects.equals(IPlist.get(i), getIP(ID))){
+                    IPlist.remove(i);
+                }
+            }
+            map.remove(ID);
+            saveMap();
+            result="Node deleted succesfully";
+        }else{
+            result="Error: No such Node";
+        }
+        return result;
+    }
+    public void saveMap(){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(new File("src/main/java/ProjectY/NamingServer/NameFile.json"), map);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

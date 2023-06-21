@@ -16,27 +16,12 @@ public class HttpModule {
     public HttpModule(NamingServer server) {this.server = server;}
 
     public void replication(JSONObject message, String ip) {
-        System.out.println("HttpModule: sendReplication: " + message);
-
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://"+ip+":8080/ProjectY/Client/replication"))
                 .POST(HttpRequest.BodyPublishers.ofString(message.toJSONString()))
                 .header("Content-type", "application/json")
                 .timeout(Duration.ofSeconds(1000))
-                .build();
-        System.out.println("HttpModule: sending to "+ip+"...");
-        try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void updatePreviousID(String IP, int previousID){
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://"+IP+":8081/ProjectY/Update/NextNode/"+previousID))
-                .PUT(HttpRequest.BodyPublishers.noBody())
                 .build();
         try {
             client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -56,5 +41,16 @@ public class HttpModule {
             throw new RuntimeException(e);
         }
     }
-
+    public void updatePreviousID(String IP, int previousID){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://"+IP+":8081/ProjectY/Update/NextNode/"+previousID))
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
