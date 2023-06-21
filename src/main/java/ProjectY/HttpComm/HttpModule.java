@@ -32,5 +32,29 @@ public class HttpModule {
             throw new RuntimeException(e);
         }
     }
+    public void updatePreviousID(String IP, int previousID){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://"+IP+":8081/ProjectY/Update/NextNode/"+previousID))
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void updateNextID(String IP,int nextID){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://"+IP+":8081/ProjectY/Update/PreviousNode/"+nextID))
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+        try {
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

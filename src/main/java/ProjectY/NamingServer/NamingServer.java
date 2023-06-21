@@ -24,10 +24,11 @@ public class NamingServer {
     public String removeNode(String name){
         return map.removeNode(Hash(name));
     }
+    public String removeNode(int nodeID){return map.removeNode(nodeID);}
     public String getIP(String name){
         return map.getIP(Hash(name));
     }
-
+    public String getIP(int nodeID){return map.getIP(nodeID);}
     public String getIPId(int Id){
         return map.getIP(Id);
     }
@@ -39,7 +40,7 @@ public class NamingServer {
         return map.getIPlist();
     }
     public String locate(String fileName){
-        System.out.println("Hash: "+Hash(fileName));
+        //System.out.println("Hash: "+Hash(fileName));
         return map.findClosestIP(Hash(fileName));
     }
     public int Hash(String name){
@@ -53,7 +54,6 @@ public class NamingServer {
     public void printServer(){
         map.printMap();
     }
-
     public int getPreviousId(int Id) {
         return map.getPreviousId(Id);
     }
@@ -61,8 +61,5 @@ public class NamingServer {
         return map.getNextId(Id);
     }
 
-    public String getReplicatedIP(int fileID){
-        String replicatedOwner = map.getReplicationIP(fileID);
-        return replicatedOwner;
-    }
+    public String getReplicatedIP(int fileID){return map.getReplicationIP(fileID);}
 }

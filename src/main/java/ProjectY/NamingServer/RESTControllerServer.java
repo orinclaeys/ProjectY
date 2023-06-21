@@ -4,12 +4,10 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
-
 @RestController
 @RequestMapping(path="ProjectY")
 public class RESTControllerServer {
-    private NamingServer server = new NamingServer();
+    private final NamingServer server = new NamingServer();
     @Autowired
     public RESTControllerServer() {}
     @GetMapping(path="NamingServer/getLocation/{Name}")
@@ -42,10 +40,10 @@ public class RESTControllerServer {
         return service.GetPreviousIPAddressId(Id);
     }
 
-    @PostMapping(path="Failure")
-    public JSONObject failure(@RequestBody JSONObject message){
+    @DeleteMapping(path="Failure/{nodeID}")
+    public void failure(@PathVariable("nodeID") int nodeID){
         NamingServerService service = new NamingServerService(this.server);
-        return service.handleFailure(message);
+        service.handleFailure(nodeID);
     }
 
     @PostMapping(path="NamingServer/replication")

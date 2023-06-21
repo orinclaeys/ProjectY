@@ -42,18 +42,16 @@ public class NamingServerService extends Thread{
     }
 
 
-    public JSONObject handleFailure(JSONObject message){
-        int Id = (int) message.get("Failed node Id");
-        String nodeName = (String) message.get("Failed node name");
+    public void handleFailure(int nodeID){
+        int previousID = server.getPreviousId(nodeID);
+        String previousIP = server.getIP(previousID);
+        int nextID = server.getNextId(nodeID);
+        String nextIP = server.getIP(nextID);
+        httpModule.updatePreviousID(nextIP,previousID);
+        httpModule.updateNextID(previousIP,nextID);
 
-        JSONObject response = new JSONObject();
-        response.put("failedNodeId", Id);
-        response.put("previousId", this.server.getPreviousId(Id));
-        response.put("previousIP", this.server.getIPId(this.server.getPreviousId(Id)));
-        response.put("nextId", this.server.getNextId(Id));
-        response.put("nextIP", this.server.getIPId(this.server.getNextId(Id)));
-        DeleteNode(nodeName);
-        return response;
+        server.removeNode(nodeID);
+
     }
 
     public JSONObject handleReplication(JSONObject message){
