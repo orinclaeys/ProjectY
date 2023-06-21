@@ -56,4 +56,10 @@ public class RESTControllerServer {
         System.out.println("Server: Replication response: "+response);
         return response;
     }
+
+    @GetMapping(path="NamingServer/FailureAgent/sendNextIDRequest/{ID}")
+    public Integer handleNextIDRequest(@PathVariable("ID") int ID){
+        NamingServerService service = new NamingServerService(this.server);
+        return service.handleNextIDRequest(ID);
+    }
 }

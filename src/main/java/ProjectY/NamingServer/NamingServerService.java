@@ -76,4 +76,8 @@ public class NamingServerService extends Thread{
         System.out.println("Previous Id of "+Id+" is "+previousID);
         return this.server.getIPId(this.server.getPreviousId(Id));
     }
+
+    public Integer handleNextIDRequest(int Id){
+        return this.server.getNextId(Id);
+    }
 }
