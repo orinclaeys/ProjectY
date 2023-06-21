@@ -81,7 +81,7 @@ public class Map {
 
     public int getPreviousId(int Id) {
         Object[] keys = map.keySet().toArray();
-        Arrays.stream(keys).sorted();
+        Arrays.sort(keys);
         int previousId = 0;
         for(int i=0;i<keys.length;i++){
             if((Integer) keys[i] == Id){
@@ -97,7 +97,7 @@ public class Map {
     }
     public int getNextId(int Id) {
         Object[] keys = map.keySet().toArray();
-        Arrays.stream(keys).sorted();
+        Arrays.sort(keys);
         int nextId = 32768;
         for(int i=0;i<keys.length;i++){
             if((Integer) keys[i] == Id){
