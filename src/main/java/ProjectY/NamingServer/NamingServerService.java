@@ -30,6 +30,16 @@ public class NamingServerService extends Thread{
     public String GetIPAddressId(int Id){return this.server.getIPId(Id);}
     public String LocateIP(String name){return  this.server.locate(name);}
 
+    /**
+     * Handles discovery response: Auto-discover the Naming server and existing nodes in the network
+     * The Naming server receives the multicast message and executes the following steps:
+     *  Calculate the hash of a node name
+     *  Adds the hash and IP address in its map data structure
+     *  Responds to the new node with the number of existing nodes that are currently in the network
+     *
+     * @param message the received message
+     * @response response the sender and IPList, message and size
+     */
     public JSONObject handleDiscovery(JSONObject message) {
         JSONObject response = new JSONObject();
         Vector<String> IPlist = (Vector<String>) server.getIPlist().clone();
@@ -41,6 +51,13 @@ public class NamingServerService extends Thread{
         return response;
     }
 
+    /**
+     * Failure: This algorithm is activated in every exception thrown during communication
+     * with other nodes. This allows distributed detection of node failure
+     * Request the previous node and next node parameters from the nameserver
+     *
+     * @param nodeID the node ID
+     */
 
     public void handleFailure(int nodeID){
         int previousID = server.getPreviousId(nodeID);
@@ -54,6 +71,15 @@ public class NamingServerService extends Thread{
 
     }
 
+    /**
+     * Replication: All files that are stored on each node should be replicated to corresponding nodes in system Y.
+     * This way, a new node to which the file is replicated becomes the owner of the file.
+     * Naming server receives hash values of files that need to be replicated. Replication is performed as follows:
+     * Naming server informs the originating node on that and then the originating node transfers the files to the replicated nodes.
+     *
+     * @param message sender, message and file id
+     * @response sender, message, replicated owner ip
+     */
     public JSONObject handleReplication(JSONObject message){
         JSONObject response = new JSONObject();
         if (message.get("Sender").equals("Client")){
